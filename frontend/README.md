@@ -1,16 +1,68 @@
-# React + Vite
+# Smart Healthcare Appointment Scheduler - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React-based frontend application for the Smart Healthcare Appointment Scheduler.
 
-Currently, two official plugins are available:
+## 🚀 Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+The application will be available at `http://localhost:5173`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📚 Documentation
 
-## Expanding the ESLint configuration
+For complete project documentation, please refer to the root directory:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **[Main README](../README.md)** - Project overview and features
+- **[API Documentation](../API_DOCUMENTATION.md)** - Complete API reference
+- **[Setup Guide](../SETUP_GUIDE.md)** - Detailed installation instructions
+
+## 🛠️ Technologies
+
+- React 19.2.0
+- Vite 7.2.4
+- TailwindCSS 3.4.19
+- Axios 1.13.2
+
+## 📁 Project Structure
+
+```
+src/
+├── api/             # Axios configuration
+├── auth/            # Login and Signup components
+├── common/          # Shared components (Navbar)
+├── doctor/          # Doctor-specific components
+├── patient/         # Patient-specific components
+├── pages/           # Page components
+├── App.jsx          # Main app component
+└── main.jsx         # Entry point
+```
+
+## 🎨 UI Theme
+
+The application uses a modern teal/cyan/emerald color palette specifically designed for healthcare applications.
+
+## 🔧 Configuration
+
+Backend API URL is configured in `src/api/axios.js`:
+
+```javascript
+baseURL: "http://localhost:5000/api"
+```
+
+## 📦 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Create production build
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+## 🚀 Building for Production
+
+```bash
+npm run build
+```
+
+The optimized files will be in the `dist` directory.

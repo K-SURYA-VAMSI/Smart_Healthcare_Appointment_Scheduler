@@ -22,7 +22,7 @@ import {
   
   export const cancel = async (req, res) => {
     try {
-      const result = await cancelAppointment(req.params.id);
+      const result = await cancelAppointment(req.params.id, req.user.id);
       res.status(200).json(result);
     } catch (error) {
       res.status(400).json({ message: error.message });

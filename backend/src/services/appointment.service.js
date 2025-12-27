@@ -66,25 +66,29 @@ export const cancelAppointment = async (id, userId) => {
   const appointment = await Appointment.findById(id);
   if (!appointment) throw new Error("Appointment not found");
 
+  if (appointment.patientId.toString() !== userId.toString()) {
+    throw new Error("You are not authorized to cancel this appointment");
+  }
 
   const doctor = await Doctor.findById(appointment.doctorId);
   const patient = await User.findById(appointment.patientId);
-const doctorUser = await User.findById(doctor.userId);
+  const doctorUser = await User.findById(doctor.userId);
 
-await Appointment.findByIdAndDelete(id);
+  await Appointment.findByIdAndDelete(id);
 
+  try {
+    await sendSMS(
+      patient.phoneNumber,
+      `Your appointment on ${appointment.date} has been cancelled.`
+    );
 
-await sendSMS(
-  patient.phoneNumber,
-  `Your appointment on ${appointment.date} has been cancelled.`
-);
-
-await sendSMS(
-  doctorUser.phoneNumber,
-  `Appointment on ${appointment.date} has been cancelled.`
-);
-
-
+    await sendSMS(
+      doctorUser.phoneNumber,
+      `Appointment on ${appointment.date} has been cancelled.`
+    );
+  } catch (smsError) {
+    console.error("SMS failed during cancellation:", smsError.message);
+  }
 
   return { message: "Appointment cancelled successfully" };
 };

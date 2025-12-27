@@ -8,12 +8,12 @@ const availabilitySchema = new mongoose.Schema(
       required: true
     },
     date: {
-      type: String, // YYYY-MM-DD
+      type: String,
       required: true
     },
     workingHours: {
-      startTime: { type: String }, // "09:00"
-      endTime: { type: String }    // "17:00"
+      startTime: { type: String },
+      endTime: { type: String }
     },
     breaks: [
       {

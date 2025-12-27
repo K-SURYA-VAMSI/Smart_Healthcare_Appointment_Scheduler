@@ -18,7 +18,7 @@ const doctorSchema = new mongoose.Schema(
     },
     consultationDuration: {
       type: Number,
-      default: 30 // minutes
+      default: 30
     }
   },
   { timestamps: true }

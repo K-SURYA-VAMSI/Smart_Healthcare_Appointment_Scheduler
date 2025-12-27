@@ -39,5 +39,6 @@ router.post(
   });
   
   router.put("/:id/cancel", protect, cancel);
+  router.delete("/:id", protect, cancel);
 
 export default router;

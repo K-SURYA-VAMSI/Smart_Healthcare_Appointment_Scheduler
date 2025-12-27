@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../api/axios";
 
-function CreateProfile() {
+function CreateProfile({ onProfileCreated }) {
   const [form, setForm] = useState({
     specialization: "",
     experience: "",
@@ -38,6 +38,13 @@ function CreateProfile() {
         experience: "",
         consultationDuration: ""
       });
+      
+      // Notify parent component
+      if (onProfileCreated) {
+        setTimeout(() => {
+          onProfileCreated();
+        }, 500);
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Failed to create profile");
     } finally {
@@ -46,56 +53,93 @@ function CreateProfile() {
   };
 
   return (
-    <div className="max-w-lg bg-white p-6 rounded-lg shadow">
-      <h3 className="text-xl font-semibold mb-4">
-        Create Doctor Profile
-      </h3>
+    <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="bg-cyan-100 p-3 rounded-xl">
+          <span className="text-3xl">👨‍⚕️</span>
+        </div>
+        <h3 className="text-2xl font-bold text-gray-800">
+          Create Doctor Profile
+        </h3>
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          name="specialization"
-          placeholder="Specialization (e.g., Cardiologist)"
-          value={form.specialization}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-        />
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            🎓 Specialization
+          </label>
+          <input
+            name="specialization"
+            placeholder="e.g., Cardiologist, Neurologist, Pediatrician"
+            value={form.specialization}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 transition-all outline-none"
+          />
+        </div>
 
-        <input
-          name="experience"
-          type="number"
-          placeholder="Experience (years)"
-          value={form.experience}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            ⏱️ Experience (Years)
+          </label>
+          <input
+            name="experience"
+            type="number"
+            placeholder="Years of experience"
+            value={form.experience}
+            onChange={handleChange}
+            required
+            min="0"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 transition-all outline-none"
+          />
+        </div>
 
-        <input
-          name="consultationDuration"
-          type="number"
-          placeholder="Consultation Duration (minutes)"
-          value={form.consultationDuration}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            ⏰ Consultation Duration (Minutes)
+          </label>
+          <input
+            name="consultationDuration"
+            type="number"
+            placeholder="e.g., 30, 45, 60"
+            value={form.consultationDuration}
+            onChange={handleChange}
+            required
+            min="15"
+            step="15"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 transition-all outline-none"
+          />
+        </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+          className="w-full bg-gradient-to-r from-cyan-600 to-teal-600 text-white py-3 rounded-xl font-semibold hover:from-cyan-700 hover:to-teal-700 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          {loading ? "Saving..." : "Create Profile"}
+          {loading ? (
+            <>
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              Creating Profile...
+            </>
+          ) : (
+            <>
+              <span>✅</span>
+              Create Profile
+            </>
+          )}
         </button>
       </form>
 
       {error && (
-        <p className="text-red-500 text-sm mt-3">{error}</p>
+        <div className="mt-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+          <p className="text-red-700 font-medium">⚠️ {error}</p>
+        </div>
       )}
 
       {success && (
-        <p className="text-green-600 text-sm mt-3">{success}</p>
+        <div className="mt-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+          <p className="text-green-700 font-medium">✅ {success}</p>
+        </div>
       )}
     </div>
   );
